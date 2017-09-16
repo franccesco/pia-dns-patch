@@ -2,7 +2,7 @@
 This script replaces the */etc/resolv.conf* with the PIA DNS's to evade DNS leaking.
 It **O**verwrites or **A**ppends your resolv.conf file.
 
-# Instalation
+# Installation
 You can call it from everywhere with an absolute path but for convenience make a symbolic link:
 `$ sudo ln -s $PWD/pia_patcher.py /usr/bin/pia-patcher`
 
@@ -24,4 +24,5 @@ $ pia-patcher
 *	OR appends it if you choose to.
 
 # TODO
-* ... everything?
+* Ability to restore
+* CLI arguments
