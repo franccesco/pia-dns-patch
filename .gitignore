@@ -136,4 +136,19 @@ bh_unicode_properties.cache
 # https://packagecontrol.io/packages/sublime-github
 GitHub.sublime-settings
 
-# End of https://www.gitignore.io/api/python,sublimetext
+### venv ###
+# Linux
+bin/ 
+lib/
+include/
+
+# Window
+Include/
+Lib/
+Scripts/
+
+# Shared
+pyvenv.cfg
+
+
+# End of https://www.gitignore.io/api/venv
