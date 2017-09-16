@@ -4,18 +4,18 @@ It **O**verwrites or **A**ppends your resolv.conf file.
 
 # Installation
 You can call it from everywhere with an absolute path but for convenience make a symbolic link:
+
 `$ sudo ln -s $PWD/pia_patcher.py /usr/bin/pia-patcher`
 
 And then execute it:
 ```
 $ pia-patcher
-	Warning: resolv.conf exist.
-	[O]verwrite / [A]ppend / [B]reak
-	~> O
-
-	Making a backup first...
-	Replacing file...
-	DNS successfully patched.
+Warning: resolv.conf exist.
+[O]verwrite / [A]ppend / [B]reak
+~> O
+Making a backup first...
+Replacing file...
+DNS successfully patched.
 ```
 
 # Procedure
