@@ -97,3 +97,5 @@ if __name__ == '__main__':
         else:
             print("Wrong option I guess? Exiting...")
             exit()
+    else:
+        replace_resolv()
