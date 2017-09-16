@@ -33,6 +33,7 @@ def backup_resolv():
     except PermissionError as denied:
         message = "\033[1m" + "ERR! ROOT is needed." + "\033[0;0m"
         print(message)
+        exit()
     else:
         return True
 
