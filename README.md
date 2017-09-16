@@ -5,7 +5,7 @@ It **O**verwrites or **A**ppends your resolv.conf file.
 # Installation
 You can call it from everywhere with an absolute path but for convenience make a symbolic link:
 
-`$ sudo ln -s $PWD/pia_patcher.py /usr/bin/pia-patcher`
+`$ sudo ln -s $PWD/pia-patcher.py /usr/bin/pia-patcher`
 
 And then execute it:
 ```
