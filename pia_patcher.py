@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 # Author: Franccesco Orozco
 # Version: 0.1
+#
+# For instalation make a symbolic link:
+#     ~ sudo ln -s $PWD/pia_patcher.py /usr/bin/pia-patcher
+# Execute:
+#     ~ pia-patcher
 
 "Replace resolv.conf with Private Internet Access DNS's"
 
