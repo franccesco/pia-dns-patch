@@ -1,0 +1,3 @@
+# Private Internet Access DNS:
+209.222.18.222
+209.222.18.218
