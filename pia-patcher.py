@@ -12,6 +12,7 @@
 import shutil
 import os
 from sys import exit
+import argparse
 
 
 def check_current_dir():
@@ -35,6 +36,7 @@ def backup_resolv():
         print(message)
         exit()
     else:
+        print("Successfully backup resolv.conf")
         return True
 
 
@@ -46,7 +48,7 @@ def append_to_resolv():
             pia_template = temp_obj.read()
         with open('/etc/resolv.conf', mode='a') as resolv_obj:
             # double return so it doesn't get cluttered
-            resolv_obj.writelines("\n\n")
+            resolv_obj.writelines("\n")
             resolv_obj.write(pia_template)
     except PermissionError as denied:
         denied_message = denied
@@ -72,36 +74,66 @@ def replace_resolv():
         print("DNS successfully patched.")
         return True
 
-
 if __name__ == '__main__':
     """Run if script called directly."""
     # Case scenario: if resolv exists, overwrite, append or break.
     #                but make a backup first!
-    if check_resolv_exist():
-        print("Warning: resolv.conf exist.")
-        print("[O]verwrite / [A]ppend / [B]reak")
-        override_safety = input("\033[1m" + "~> " + "\033[0;0m")
 
-        if override_safety.lower() == 'o':
-            print("\nMaking a backup first...")
-            backup_resolv()
+    options = argparse.ArgumentParser()
+    options.add_argument("-o", "--overwrite",
+                         help="Overwrites the entire resolv.conf file.",
+                         action="store_true")
+    options.add_argument("-f", "--force",
+                         help="Forces overwrite. Use with -o",
+                         action="store_true")
+    options.add_argument("-a", "--append",
+                         help="Append resolv.conf instead of overwriting.",
+                         action="store_true")
+    options.add_argument("-b", "--backup",
+                         help="Only performs a backup of current resolv.conf",
+                         action="store_true")
+    options.add_argument("-r", "--restore",
+                         help="Restores previous backup.",
+                         action="store_true")
+    args = options.parse_args()
 
-            print("Replacing file...")
+    if args.overwrite and args.force:
+        print("Warning: resolf.conf exists. Force overwriting.")
+        print("Safety first: Making a backup.")
+        backup_resolv()
+        print("Proceeding to overwrite resolv.conf")
+        replace_resolv()
+
+    elif args.overwrite:
+        if check_resolv_exist():
+            print("Warning: resolv.conf exist.")
+            proceed = input("Proceed? [y/N]: ")
+            proceed.lower()
+            if proceed is 'y':
+                print("Warning: resolf.conf exists. Force overwriting.")
+                print("Safety first: Making a backup.")
+                backup_resolv()
+                print("Proceeding to overwrite resolv.conf")
+                replace_resolv()
+            else:
+                print("Exiting...")
+                exit()
+        else:
+            print("Proceeding to overwrite resolv.conf")
             replace_resolv()
 
-        elif override_safety.lower() == 'a':
-            print("\nMaking a backup first.")
+    elif args.append:
+        print("\nMaking a backup first.")
+        backup_resolv()
+        print("Appending to resolv.conf")
+        append_to_resolv()
+
+    elif args.backup:
+        if check_resolv_exist():
             backup_resolv()
 
-            print("Appending to resolv.conf")
-            append_to_resolv()
-
-        elif override_safety.lower() == 'b':
-            print('See ya.')
-            exit()
-
-        else:
-            print("Wrong option I guess? Exiting...")
-            exit()
+    elif args.restore:
+        print("restoring - work in progress")
     else:
-        replace_resolv()
+        print("You need to provide an options.\n")
+        options.print_help()
