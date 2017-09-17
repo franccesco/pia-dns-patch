@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Author: Franccesco Orozco
-# Version: 0.1
+# Version: 1.0.0
 #
 # For installation make a symbolic link:
 #     ~ sudo ln -s $PWD/pia_patcher.py /usr/bin/pia-patcher
