@@ -40,6 +40,21 @@ def backup_resolv():
         return True
 
 
+def restore_backup():
+    """Restores resolv.conf to its original state."""
+    current_dir = check_current_dir()
+    try:
+        shutil.copy(current_dir + 'resolv.bak', '/etc/resolv.conf')
+    except PermissionError as denied:
+        denied_message = denied
+        print(denied_message)
+        print("\033[1m" + "Err. Run me as ROOT." + "\033[0;0m")
+        exit()
+    else:
+        print("Restore complete.")
+        return True
+
+
 def append_to_resolv():
     """Append template to resolv.conf instead of replacing it."""
     current_dir = check_current_dir()
@@ -53,7 +68,7 @@ def append_to_resolv():
     except PermissionError as denied:
         denied_message = denied
         print(denied_message)
-        print("\033[1m" + "Waddup, run me as ROOT okay?." + "\033[0;0m")
+        print("\033[1m" + "Waddup, run me as ROOT okay?" + "\033[0;0m")
         print("Breaking...")
         exit()
     else:
@@ -78,23 +93,23 @@ if __name__ == '__main__':
     """Run if script called directly."""
     # Case scenario: if resolv exists, overwrite, append or break.
     #                but make a backup first!
-
     options = argparse.ArgumentParser()
-    options.add_argument("-o", "--overwrite",
-                         help="Overwrites the entire resolv.conf file.",
-                         action="store_true")
+    group = options.add_mutually_exclusive_group()
+    group.add_argument("-o", "--overwrite",
+                       help="Overwrites the entire resolv.conf file.",
+                       action="store_true")
     options.add_argument("-f", "--force",
                          help="Forces overwrite. Use with -o",
                          action="store_true")
-    options.add_argument("-a", "--append",
-                         help="Append resolv.conf instead of overwriting.",
-                         action="store_true")
-    options.add_argument("-b", "--backup",
-                         help="Only performs a backup of current resolv.conf",
-                         action="store_true")
-    options.add_argument("-r", "--restore",
-                         help="Restores previous backup.",
-                         action="store_true")
+    group.add_argument("-a", "--append",
+                       help="Append resolv.conf instead of overwriting.",
+                       action="store_true")
+    group.add_argument("-b", "--backup",
+                       help="Only performs a backup of current resolv.conf",
+                       action="store_true")
+    group.add_argument("-r", "--restore",
+                       help="Restores previous backup.",
+                       action="store_true")
     args = options.parse_args()
 
     if args.overwrite and args.force:
@@ -133,7 +148,8 @@ if __name__ == '__main__':
             backup_resolv()
 
     elif args.restore:
-        print("restoring - work in progress")
+        restore_backup()
+
     else:
         print("You need to provide an options.\n")
         options.print_help()
