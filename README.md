@@ -34,7 +34,3 @@ DNS successfully patched.
 * Makes a backup of the original resolv.conf
 * Replaces resolv.conf with a new resolv.conf file with PIA DNS addresses.
 *	OR appends it if you choose to.
-
-# TODO
-* Ability to restore
-* CLI arguments
